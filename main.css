@@ -1,5 +1,10 @@
 body {
+    margin: 0;
     background-color: grey;
+}
+
+.menu {
+    display: none;
 }
 
 h1, h2, .zacit-tlacitko-wrapper, .modry-utvar-wrapper {
@@ -64,6 +69,25 @@ button {
     border: 3px solid black;
 }
 
+.hrat-tlacitko {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(2.0, 2.0);
+}
+
+.hrat-tlacitko:hover {
+    cursor: pointer;
+}
+
+.pre-obrazek {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1;
+}
+
 .obrazek {
     position: absolute;
     top: 1rem;
@@ -73,6 +97,7 @@ button {
 }
 
 .cech {
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
 }

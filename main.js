@@ -1,4 +1,6 @@
+const preMenu = document.querySelector(".pre-menu");
 const menu = document.querySelector(".menu");
+const hratTlacitko = document.querySelector(".hrat-tlacitko");
 const zacitTlacitko = document.querySelector(".zacit-tlacitko");
 const modryUtvar = document.querySelector(".modry-utvar");
 
@@ -7,13 +9,12 @@ const vepreduOdpovedi = document.querySelectorAll("#odpoved");
 const vepreduOdpovediWrapper = document.querySelector(".odpovedi-wrapper");
 const znelka = new Audio("songy/znělka.ogg");
 const prvniOtazky = new Audio("songy/první otázky.ogg");
-znelka.play();
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let otazky = ["Ve kterém městě byste hledali Pražský Hrad?"]
+let otazky = ["Ve kterém městě byste hledali Pražský hrad?"]
 let odpovedi = [["V Praze", "V Brně", "V Olomouci", "Dycky Most!"]]
 let spravneOdpovedi = ["A"]
 const POCET_ODPOVEDI = 4
@@ -47,6 +48,12 @@ async function hra() {
         }
     }
 }
+
+hratTlacitko.addEventListener('click', () => {
+    preMenu.style.display = "none";
+    menu.style.display = "block";
+    znelka.play();
+});
 
 zacitTlacitko.addEventListener('click', () => {
     menu.style.display = "none";

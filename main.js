@@ -5,7 +5,7 @@ const zacitTlacitko = document.querySelector(".zacit-tlacitko");
 const modryUtvar = document.querySelector(".modry-utvar");
 
 const vepreduOtazka = document.querySelector(".otazka");
-const vepreduOdpovedi = document.querySelectorAll("#odpoved");
+const vepreduOdpovedi = document.querySelectorAll(".odpoved");
 const vepreduOdpovediWrapper = document.querySelector(".odpovedi-wrapper");
 const znelka = new Audio("songy/znělka.ogg");
 const prvniOtazky = new Audio("songy/první otázky.ogg");

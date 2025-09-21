@@ -41,7 +41,7 @@ h2 {
     flex-wrap: wrap;
 }
 
-#odpoved {
+.odpoved {
     display: flex;
     align-items: center;
     padding-left: 10px;

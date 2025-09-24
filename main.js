@@ -11,8 +11,13 @@ const odpovedB = document.getElementById("odpoved-B");
 const odpovedC = document.getElementById("odpoved-C");
 const odpovedD = document.getElementById("odpoved-D");
 const vepreduOdpovediWrapper = document.querySelector(".odpovedi-wrapper");
-const znelka = new Audio("songy/znělka.ogg");
-const prvniOtazky = new Audio("songy/první otázky.ogg");
+const audioZnelka = new Audio("songy/znělka.ogg");
+const audioZacatekOtazky = new Audio("songy/začátek otázky.ogg");
+const audioPrvniOtazky = new Audio("songy/první otázky.ogg");
+const audioOznaceniKratke = new Audio("songy/označení krátké.ogg");
+const audioOznaceni = new Audio("songy/označení.ogg");
+const audioSpravnaOdpoved = new Audio("songy/správná odpověď.ogg");
+const audioProhra = new Audio("songy/prohra.ogg");
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -34,6 +39,8 @@ function reset() {
         vepreduOdpovedi[i].style.background = "blue";
         vepreduOdpovedi[i].style.pointerEvents = "auto";
     }
+    zakliknutaOdpoved = null;
+    audioPrvniOtazky.volume = 1.0;
 }
 
 function frame() {
@@ -49,6 +56,8 @@ async function oznacit(odpoved) {
     odpoved.style.background = "#EC8D40";
     for (let i = 0; i < vepreduOdpovedi.length; i++)
         vepreduOdpovedi[i].style.pointerEvents = "none";
+    audioPrvniOtazky.volume = 0.2;
+    audioOznaceniKratke.play();
 }
 
 let zakliknutaOdpoved = null;
@@ -91,12 +100,32 @@ async function hra() {
         }
 
         if (zakliknutaOdpoved !== null) {
-            await sleep(3000);
+            await sleep(4000);
             if (zakliknutaOdpoved === spravneOdpovedi[ntaOtazka-1]) {
                 zakliknutaVepreduOdpoved.style.background = "green";
+                audioSpravnaOdpoved.play();
                 await sleep(2000);
                 ntaOtazka++;
                 reset();
+            } else {
+                zakliknutaVepreduOdpoved.style.background = "#BB2C2C";
+                switch (spravneOdpovedi[ntaOtazka-1]) {
+                    case 'A':
+                        vepreduOdpovedi[0].style.background = "green";
+                        break;
+                    case 'B':
+                        vepreduOdpovedi[1].style.background = "green";
+                        break;
+                    case 'C':
+                        vepreduOdpovedi[2].style.background = "green";
+                        break;
+                    case 'D':
+                        vepreduOdpovedi[3].style.background = "green";
+                        break;
+                }
+                audioPrvniOtazky.pause();
+                audioProhra.play();
+                return;
             }
         }
     }
@@ -105,13 +134,14 @@ async function hra() {
 hratTlacitko.addEventListener('click', () => {
     preMenu.style.display = "none";
     menu.style.display = "block";
-    znelka.play();
+    audioZnelka.play();
 });
 
 zacitTlacitko.addEventListener('click', () => {
     menu.style.display = "none";
     modryUtvar.style.display = "flex";
-    znelka.pause();
-    prvniOtazky.play();
+    audioZnelka.pause();
+    audioZacatekOtazky.play();
+    audioPrvniOtazky.play();
     hra();
 });

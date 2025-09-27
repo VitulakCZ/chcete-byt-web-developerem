@@ -23,7 +23,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let otazky = ["Ve kterém městě byste hledali Pražský hrad?", "Jan Hus byl upálen v Kostnici v roce 1415. Jak se jmenoval?"]
+let otazky = ["Ve kterém městě byste hledali Pražský hrad?", "Jan Hus byl upálen v Kostnici v roce 1415. Jak se tento muž jmenoval?"]
 let odpovedi = [["V Praze", "V Brně", "V Olomouci", "Dycky Most!"], ["Adam", "Jan Hus", "Konstantin a Metoděj", "Emanuel Macron"]]
 let spravneOdpovedi = ["A", "B"]
 const POCET_ODPOVEDI = 4

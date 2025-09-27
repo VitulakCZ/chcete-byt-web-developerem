@@ -19,13 +19,14 @@ const audioOznaceni = new Audio("songy/označení.ogg");
 const audioSpravnaOdpoved = new Audio("songy/správná odpověď.ogg");
 const audioProhra = new Audio("songy/prohra.ogg");
 
+let audioOtazka = audioPrvniOtazky;
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let otazky = ["Ve kterém městě byste hledali Pražský hrad?", "Jan Hus byl upálen v Kostnici v roce 1415. Jak se tento muž jmenoval?"]
-let odpovedi = [["V Praze", "V Brně", "V Olomouci", "Dycky Most!"], ["Adam", "Jan Hus", "Konstantin a Metoděj", "Emanuel Macron"]]
-let spravneOdpovedi = ["A", "B"]
+let otazky = ["Ve kterém městě byste hledali Pražský hrad?", "Kdo napsal Výklad Viery, Desatera a Páteře?", "Co se škádlívá, to se ...", "Který z těchto států nepoužívá jako měnu Euro?", "Který z těchto OS nikdy neexistoval?", "Kdo složil Obrázky z výstavy?", "Test 7", "Test 8"]
+let odpovedi = [["V Praze", "V Brně", "V Olomouci", "Dycky Most!"], ["Adam", "Jan Hus", "Konstantin a Metoděj", "Emanuel Macron"], ["málo vídá", "rádo mívá", "méně schází", "dobře zpívá"], ["Finsko", "Kypr", "Irsko", "Dánsko"], ["UNIX", "BeOS", "NetBSD", "Všechny existovaly"], ["M. Ravel", "P. I. Čajkovskij", "M. P. Musorgskij", "H. Berlioz"], ["A", "B", "C", "D"], ["A", "B", "C", "D"]]
+let spravneOdpovedi = ["A", "B", "B", "D", "D", "C", "A", "A"]
 const POCET_ODPOVEDI = 4
 
 let id = null;
@@ -40,7 +41,7 @@ function reset() {
         vepreduOdpovedi[i].style.pointerEvents = "auto";
     }
     zakliknutaOdpoved = null;
-    audioPrvniOtazky.volume = 1.0;
+    audioOtazka.volume = 1.0;
 }
 
 function frame() {
@@ -56,8 +57,17 @@ async function oznacit(odpoved) {
     odpoved.style.background = "#EC8D40";
     for (let i = 0; i < vepreduOdpovedi.length; i++)
         vepreduOdpovedi[i].style.pointerEvents = "none";
-    audioPrvniOtazky.volume = 0.2;
+    audioOtazka.volume = 0.2;
     audioOznaceniKratke.play();
+}
+
+function zmenitHudbu(ntaOtazka) {
+    if (ntaOtazka > 5) {
+        audioOtazka.pause();
+        audioOtazka = new Audio(`songy/otázka ${ntaOtazka}.ogg`);
+        audioOtazka.play();
+    }
+    audioOtazka.loop = true;
 }
 
 let zakliknutaOdpoved = null;
@@ -85,7 +95,7 @@ odpovedD.addEventListener('click', () => {
 
 async function hra() {
     let ntaOtazka = 1;
-    while (ntaOtazka < 5) {
+    while (ntaOtazka <= 15) {
         vepreduOtazka.innerText = otazky[ntaOtazka-1];
         await sleep(2000);
         clearInterval(id);
@@ -106,6 +116,7 @@ async function hra() {
                 audioSpravnaOdpoved.play();
                 await sleep(2000);
                 ntaOtazka++;
+                zmenitHudbu(ntaOtazka);
                 reset();
             } else {
                 zakliknutaVepreduOdpoved.style.background = "#BB2C2C";
@@ -123,7 +134,7 @@ async function hra() {
                         vepreduOdpovedi[3].style.background = "green";
                         break;
                 }
-                audioPrvniOtazky.pause();
+                audioOtazka.pause();
                 audioProhra.play();
                 return;
             }
@@ -142,6 +153,7 @@ zacitTlacitko.addEventListener('click', () => {
     modryUtvar.style.display = "flex";
     audioZnelka.pause();
     audioZacatekOtazky.play();
-    audioPrvniOtazky.play();
+    audioOtazka.play();
+    audioOtazka.loop = true;
     hra();
 });

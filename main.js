@@ -3,6 +3,7 @@ const menu = document.querySelector(".menu");
 const hratTlacitko = document.querySelector(".hrat-tlacitko");
 const zacitTlacitko = document.querySelector(".zacit-tlacitko");
 const modryUtvar = document.querySelector(".modry-utvar");
+const tabulka = document.querySelector(".tabulka");
 
 const vepreduOtazka = document.querySelector(".otazka");
 const vepreduOdpovedi = document.querySelectorAll(".odpoved");
@@ -24,10 +25,11 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-let otazky = ["Ve kterém městě byste hledali Pražský hrad?", "Kdo napsal Výklad Viery, Desatera a Páteře?", "Co se škádlívá, to se ...", "Který z těchto států nepoužívá jako měnu Euro?", "Který z těchto OS nikdy neexistoval?", "Kdo složil Obrázky z výstavy?", "Test 7", "Test 8"]
-let odpovedi = [["V Praze", "V Brně", "V Olomouci", "Dycky Most!"], ["Adam", "Jan Hus", "Konstantin a Metoděj", "Emanuel Macron"], ["málo vídá", "rádo mívá", "méně schází", "dobře zpívá"], ["Finsko", "Kypr", "Irsko", "Dánsko"], ["UNIX", "BeOS", "NetBSD", "Všechny existovaly"], ["M. Ravel", "P. I. Čajkovskij", "M. P. Musorgskij", "H. Berlioz"], ["A", "B", "C", "D"], ["A", "B", "C", "D"]]
-let spravneOdpovedi = ["A", "B", "B", "D", "D", "C", "A", "A"]
-const POCET_ODPOVEDI = 4
+let otazky = ["Ve kterém městě byste hledali Pražský hrad?", "Kdo napsal Výklad Viery, Desatera a Páteře?", "Co se škádlívá, to se ...", "Který z těchto států nepoužívá jako měnu Euro?", "Který z těchto OS nikdy neexistoval?", "Kdo složil Obrázky z výstavy?", "Test 7", "Test 8", "Test 9", "Test 10", "Test 11", "Test 12", "Test 13", "Test 14", "Test 15"];
+let odpovedi = [["V Praze", "V Brně", "V Olomouci", "Dycky Most!"], ["Adam", "Jan Hus", "Konstantin a Metoděj", "Emanuel Macron"], ["málo vídá", "rádo mívá", "méně schází", "dobře zpívá"], ["Finsko", "Kypr", "Irsko", "Dánsko"], ["UNIX", "BeOS", "NetBSD", "Všechny existovaly"], ["M. Ravel", "P. I. Čajkovskij", "M. P. Musorgskij", "H. Berlioz"], ["A", "B", "C", "D"], ["A", "B", "C", "D"], ["A", "B", "C", "D"], ["A", "B", "C", "D"], ["A", "B", "C", "D"], ["A", "B", "C", "D"], ["A", "B", "C", "D"], ["A", "B", "C", "D"], ["A", "B", "C", "D"]];
+let spravneOdpovedi = ["A", "B", "B", "D", "D", "C", "A", "A", "A", "A", "A", "A", "A", "A", "A"];
+const oznacovaciOranzova = "#EC8D40";
+const POCET_ODPOVEDI = 4;
 
 let id = null;
 let pos = 40;
@@ -54,7 +56,7 @@ function frame() {
 }
 
 async function oznacit(odpoved) {
-    odpoved.style.background = "#EC8D40";
+    odpoved.style.background = oznacovaciOranzova;
     for (let i = 0; i < vepreduOdpovedi.length; i++)
         vepreduOdpovedi[i].style.pointerEvents = "none";
     audioOtazka.volume = 0.2;
@@ -93,8 +95,20 @@ odpovedD.addEventListener('click', () => {
     oznacit(odpovedD);
 });
 
+async function ukazTabulku(ntaOtazka) {
+    modryUtvar.style.display = "none";
+    tabulka.style.display = "flex";
+    oznacenaOtazka = document.querySelector(`#penize-${ntaOtazka}`);
+    oznacenaOtazka.style.background = oznacovaciOranzova;
+    await sleep(4000);
+    oznacenaOtazka.style.background = "none";
+    tabulka.style.display = "none";
+    modryUtvar.style.display = "flex";
+}
+
 async function hra() {
     let ntaOtazka = 1;
+    await ukazTabulku(ntaOtazka);
     while (ntaOtazka <= 15) {
         vepreduOtazka.innerText = otazky[ntaOtazka-1];
         await sleep(2000);
@@ -118,6 +132,7 @@ async function hra() {
                 ntaOtazka++;
                 zmenitHudbu(ntaOtazka);
                 reset();
+                await ukazTabulku(ntaOtazka);
             } else {
                 zakliknutaVepreduOdpoved.style.background = "#BB2C2C";
                 switch (spravneOdpovedi[ntaOtazka-1]) {
@@ -150,7 +165,6 @@ hratTlacitko.addEventListener('click', () => {
 
 zacitTlacitko.addEventListener('click', () => {
     menu.style.display = "none";
-    modryUtvar.style.display = "flex";
     audioZnelka.pause();
     audioZacatekOtazky.play();
     audioOtazka.play();

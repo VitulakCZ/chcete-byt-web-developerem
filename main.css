@@ -18,6 +18,30 @@ h1 {
     color: white;
 }
  
+.tabulka {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2vh;
+    position: absolute;
+    right: 0;
+    width: 30vw;
+    height: 100vh;
+    background: #1A00CB;
+}
+
+.cislo {
+    font-size: 3.2vh;
+    margin-left: 1em;
+}
+
+.penize {
+    position: absolute;
+    right: 0;
+    margin-right: 1em;
+    font-size: 3.2vh;
+}
+
 .modry-utvar {
     position: absolute;
     display: none;
